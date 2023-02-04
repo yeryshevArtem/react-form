@@ -6,12 +6,13 @@ import locize from "../localization/main";
 import { Layout, LayoutContainer } from "../common/components/Layout";
 import useStyles from "./userProfileForm.styles";
 import { suggestions } from "../common/constants";
+import Alert from "../common/components/Alert";
 
 function UserProfileForm() {
   const classes = useStyles();
   const [userName, setUserName] = useState("");
-  // eslint-disable-next-line no-unused-vars
   const [country, setCountry] = useState("");
+  const [error, setError] = useState(null);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -23,22 +24,29 @@ function UserProfileForm() {
     setCountry(value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    fetch("http://localhost:3100/api/users", {
-      method: "POST",
-      // credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userName,
-        country,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    try {
+      const response = await fetch("http://localhost:3100/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userName,
+          country,
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+    } catch (err) {
+      debugger;
+      setError(err);
+    }
   };
+
+  const clearError = () => setError(null);
 
   return (
     <form className={classes.userProfileFormContainer} onSubmit={handleSubmit}>
@@ -62,6 +70,15 @@ function UserProfileForm() {
         <Layout size={12}>
           <Input title={locize.get("userName")} placeholder="User Name" />
         </Layout>
+        {error && (
+          <Layout size={12}>
+            <Alert
+              message={locize.get("createUserProfileErr")}
+              type="error"
+              onClose={clearError}
+            />
+          </Layout>
+        )}
         <Layout size={12}>
           <button type="submit" className="btn btn-primary">
             {locize.get("submit")}

@@ -3,6 +3,7 @@ const locize = {
   notFound: "Not found",
   country: "Country",
   submit: "Sumbit",
+  createUserProfileErr: "Sorry, but can't create user profile. Try again...",
 };
 
 locize.get = function (key) {
