@@ -10,6 +10,7 @@ import { suggestions } from "../common/constants";
 import Alert from "../common/components/Alert";
 import { API_DOMAIN } from "../common/api.config";
 import useAutocomplete from "../common/hooks/useAutocomplete";
+import http from "../common/http";
 
 function UserProfileForm() {
   const classes = useStyles();
@@ -42,20 +43,14 @@ function UserProfileForm() {
   // submit form
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
-      const response = await fetch(`${API_DOMAIN}/api/users`, {
+      const data = await http(`${API_DOMAIN}/api/users`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+        body: {
           userName,
           country,
-        }),
+        },
       });
-
-      const data = await response.json();
       setUserProfileData(data);
       clearForm();
     } catch (err) {
