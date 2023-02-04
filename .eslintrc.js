@@ -13,5 +13,8 @@ module.exports = {
   rules: {
     "prettier/prettier": ["error"],
     "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "import/no-extraneous-dependencies": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "react/jsx-no-useless-fragment": "off",
   },
 };

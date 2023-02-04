@@ -1,12 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
+import * as bootstrap from "bootstrap";
 import reportWebVitals from "./reportWebVitals";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import "bootstrap";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import "bootstrap/dist/css/bootstrap.min.css";
+import App from "./App";
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

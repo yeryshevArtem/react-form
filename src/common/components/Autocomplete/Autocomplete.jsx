@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from "prop-types";
-import Input from "./Input";
-import locize from "../../localization/main";
+import Input from "../Input";
+import Panel from "./Panel";
+import locize from "../../../localization/main";
 
 function Autocomplete(props) {
   const { title, placeholder } = props;
@@ -48,21 +47,7 @@ function Autocomplete(props) {
   const renderAutocomplete = () => {
     if (isShow && input) {
       if (filtered.length) {
-        return (
-          <ul className="autocomplete">
-            {filtered.map((suggestion, index) => {
-              let className;
-              if (index === active) {
-                className = "active";
-              }
-              return (
-                <li className={className} key={suggestion} onClick={onClick}>
-                  {suggestion}
-                </li>
-              );
-            })}
-          </ul>
-        );
+        return <Panel onClick={onClick} filtered={filtered} active={active} />;
       }
       return (
         <div className="no-autocomplete">
@@ -70,7 +55,6 @@ function Autocomplete(props) {
         </div>
       );
     }
-    // eslint-disable-next-line react/jsx-no-useless-fragment
     return <></>;
   };
 
