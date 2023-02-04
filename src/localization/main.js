@@ -1,6 +1,7 @@
 const locize = {
   userName: "Username",
   notFound: "Not found",
+  taxIdentifier: "Tax identifier",
   country: "Country",
   submit: "Sumbit",
   createUserProfileErr: "Sorry, but can't create user profile. Try again...",

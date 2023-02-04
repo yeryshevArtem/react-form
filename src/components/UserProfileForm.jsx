@@ -8,11 +8,18 @@ import Button from "../common/components/Button";
 import useStyles from "./userProfileForm.styles";
 import { suggestions } from "../common/constants";
 import Alert from "../common/components/Alert";
+import { API_DOMAIN } from "../common/api.config";
+import useAutocomplete from "../common/hooks/useAutocomplete";
 
 function UserProfileForm() {
   const classes = useStyles();
+
+  // Form state
+  const { autoCompleteInput: country, setAutoCompleteInput: setCountry } =
+    useAutocomplete();
   const [userName, setUserName] = useState("");
-  const [country, setCountry] = useState("");
+
+  // API state
   const [error, setError] = useState(null);
   const [userProfileData, setUserProfileData] = useState(null);
 
@@ -22,15 +29,22 @@ function UserProfileForm() {
     setUserName(value);
   };
 
-  const handleSelect = (value) => {
-    setCountry(value);
+  // clear form state
+  const clearForm = () => {
+    setUserName("");
+    setCountry("");
   };
 
+  // clear API state
+  const clearError = () => setError(null);
+  const clearData = () => setUserProfileData(null);
+
+  // submit form
   const handleSubmit = async (event) => {
     event.preventDefault();
-    debugger;
+
     try {
-      const response = await fetch("http://localhost:3100/api/users", {
+      const response = await fetch(`${API_DOMAIN}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,13 +57,11 @@ function UserProfileForm() {
 
       const data = await response.json();
       setUserProfileData(data);
+      clearForm();
     } catch (err) {
       setError(err);
     }
   };
-
-  const clearError = () => setError(null);
-  const clearData = () => userProfileData(null);
 
   return (
     <form className={classes.container} onSubmit={handleSubmit}>
@@ -67,11 +79,15 @@ function UserProfileForm() {
             suggestions={suggestions}
             title={locize.get("country")}
             placeholder={locize.get("country")}
-            onSelect={handleSelect}
+            autoCompleteInput={country}
+            setAutoCompleteInput={setCountry}
           />
         </Layout>
         <Layout size={12}>
-          <Input title={locize.get("userName")} placeholder="User Name" />
+          <Input
+            title={locize.get("taxIdentifier")}
+            placeholder={locize.get("taxIdentifier")}
+          />
         </Layout>
         {userProfileData && (
           <div className={classes.gutterMedium}>
