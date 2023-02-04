@@ -4,6 +4,7 @@ import Input from "../common/components/Input";
 import { Autocomplete } from "../common/components/Autocomplete";
 import locize from "../localization/main";
 import { Layout, LayoutContainer } from "../common/components/Layout";
+import Button from "../common/components/Button";
 import useStyles from "./userProfileForm.styles";
 import { suggestions } from "../common/constants";
 import Alert from "../common/components/Alert";
@@ -13,6 +14,7 @@ function UserProfileForm() {
   const [userName, setUserName] = useState("");
   const [country, setCountry] = useState("");
   const [error, setError] = useState(null);
+  const [userProfileData, setUserProfileData] = useState(null);
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -26,6 +28,7 @@ function UserProfileForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    debugger;
     try {
       const response = await fetch("http://localhost:3100/api/users", {
         method: "POST",
@@ -39,17 +42,17 @@ function UserProfileForm() {
       });
 
       const data = await response.json();
-      console.log(data);
+      setUserProfileData(data);
     } catch (err) {
-      debugger;
       setError(err);
     }
   };
 
   const clearError = () => setError(null);
+  const clearData = () => userProfileData(null);
 
   return (
-    <form className={classes.userProfileFormContainer} onSubmit={handleSubmit}>
+    <form className={classes.container} onSubmit={handleSubmit}>
       <LayoutContainer>
         <Layout size={12}>
           <Input
@@ -70,20 +73,35 @@ function UserProfileForm() {
         <Layout size={12}>
           <Input title={locize.get("userName")} placeholder="User Name" />
         </Layout>
-        {error && (
-          <Layout size={12}>
-            <Alert
-              message={locize.get("createUserProfileErr")}
-              type="error"
-              onClose={clearError}
-            />
-          </Layout>
+        {userProfileData && (
+          <div className={classes.gutterMedium}>
+            <Layout size={12}>
+              <Alert
+                message={locize.get("createUserProfileSuccess")}
+                type="success"
+                onClose={clearData}
+              />
+            </Layout>
+          </div>
         )}
-        <Layout size={12}>
-          <button type="submit" className="btn btn-primary">
-            {locize.get("submit")}
-          </button>
-        </Layout>
+        {error && (
+          <div className={classes.gutterMedium}>
+            <Layout size={12}>
+              <Alert
+                message={locize.get("createUserProfileErr")}
+                type="error"
+                onClose={clearError}
+              />
+            </Layout>
+          </div>
+        )}
+        <div className={classes.gutterMedium}>
+          <Layout size={12}>
+            <Button elementType="submit" type="primary">
+              {locize.get("submit")}
+            </Button>
+          </Layout>
+        </div>
       </LayoutContainer>
     </form>
   );

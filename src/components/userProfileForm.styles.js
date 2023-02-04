@@ -2,9 +2,13 @@
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
-  userProfileFormContainer: {
+  container: {
     width: 700,
     margin: "100px auto",
+  },
+  gutterMedium: {
+    marginTop: 15,
+    marginBottom: 15,
   },
 });
 

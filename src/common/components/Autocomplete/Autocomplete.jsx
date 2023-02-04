@@ -55,9 +55,9 @@ function Autocomplete(props) {
         return <Panel onClick={onClick} filtered={filtered} active={active} />;
       }
       return (
-        <div className="no-autocomplete">
-          <em>{locize.get("notFound")}</em>
-        </div>
+        <ul className="list-group">
+          <li className="list-group-item">{locize.get("notFound")}</li>
+        </ul>
       );
     }
     return <></>;

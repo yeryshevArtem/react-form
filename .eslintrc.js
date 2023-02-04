@@ -17,5 +17,6 @@ module.exports = {
     "jsx-a11y/click-events-have-key-events": "off",
     "react/jsx-no-useless-fragment": "off",
     "jsx-a11y/control-has-associated-label": "off",
+    "react/button-has-type": "off",
   },
 };

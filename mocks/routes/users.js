@@ -49,9 +49,10 @@ module.exports = [
     variants: [
       {
         id: "success", // id of the variant
-        type: "status", // variant type
+        type: "json", // variant type
         options: {
-          status: 201,
+          status: 200,
+          body: ALL_USERS[0],
         },
       },
     ],
