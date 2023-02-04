@@ -23,7 +23,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src --fix",
-    "fix": "prettier --write ./src"
+    "fix": "prettier --write ./src",
+    "mocks" : "mocks-server"
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "@mocks-server/main": "^4.0.0",
     "autoprefixer": "^10.4.13",
     "css-loader": "^6.7.3",
     "eslint": "^8.33.0",

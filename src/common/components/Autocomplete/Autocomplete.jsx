@@ -5,7 +5,7 @@ import Panel from "./Panel";
 import locize from "../../../localization/main";
 
 function Autocomplete(props) {
-  const { title, placeholder } = props;
+  const { title, placeholder, onSelect } = props;
   const [active, setActive] = useState(0);
   const [filtered, setFiltered] = useState([]);
   const [isShow, setIsShow] = useState(false);
@@ -23,18 +23,22 @@ function Autocomplete(props) {
     setIsShow(true);
     setInput(e.currentTarget.value);
   };
+
   const onClick = (e) => {
     setActive(0);
     setFiltered([]);
     setIsShow(false);
     setInput(e.currentTarget.innerText);
+    onSelect(e.currentTarget.innerText);
   };
+
   const onKeyDown = (e) => {
     if (e.keyCode === 13) {
       // enter key
       setActive(0);
       setIsShow(false);
       setInput(filtered[active]);
+      onSelect(filtered[active]);
     } else if (e.keyCode === 38) {
       // up arrow
       return active === 0 ? null : setActive(active - 1);
@@ -44,6 +48,7 @@ function Autocomplete(props) {
     }
     return null;
   };
+
   const renderAutocomplete = () => {
     if (isShow && input) {
       if (filtered.length) {
@@ -75,12 +80,14 @@ function Autocomplete(props) {
 Autocomplete.defaultProps = {
   title: "",
   placeholder: "",
+  onSelect: () => {},
 };
 
 Autocomplete.propTypes = {
   suggestions: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string,
   placeholder: PropTypes.string,
+  onSelect: PropTypes.func,
 };
 
 export default Autocomplete;
