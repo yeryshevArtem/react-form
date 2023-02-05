@@ -12,6 +12,9 @@ function Input(props) {
     value,
     onKeyDown,
     onChange,
+    required,
+    minlength,
+    pattern,
   } = props;
   return (
     <>
@@ -19,6 +22,8 @@ function Input(props) {
         {title}
       </label>
       <input
+        minLength={minlength}
+        required={required}
         type={type}
         className={inputClassName}
         id={idAttr}
@@ -26,6 +31,7 @@ function Input(props) {
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}
+        pattern={pattern || undefined}
       />
     </>
   );
@@ -41,11 +47,16 @@ Input.defaultProps = {
   value: "",
   onChange: () => {},
   onKeyDown: () => {},
+  required: false,
+  minlength: 0,
+  pattern: undefined,
 };
 
 Input.propTypes = {
+  minlength: PropTypes.number,
   labelClassName: PropTypes.string,
   title: PropTypes.string,
+  required: PropTypes.bool,
   type: PropTypes.string,
   inputClassName: PropTypes.string,
   idAttr: PropTypes.string,
@@ -53,6 +64,7 @@ Input.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,
+  pattern: PropTypes.oneOfType(PropTypes.string, undefined),
 };
 
 export default Input;

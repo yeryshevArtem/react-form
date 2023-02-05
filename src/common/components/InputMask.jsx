@@ -12,6 +12,7 @@ function InputMask(props) {
     showLabel,
     config,
     value,
+    required,
   } = props;
 
   return (
@@ -22,6 +23,7 @@ function InputMask(props) {
         </label>
       )}
       <IMaskInput
+        required={required}
         className={inputClassName}
         mask={config.pattern}
         onAccept={onChange}
@@ -40,9 +42,11 @@ InputMask.defaultProps = {
   placeholder: "",
   showLabel: true,
   value: "",
+  required: false,
 };
 
 InputMask.propTypes = {
+  required: PropTypes.bool,
   labelClassName: PropTypes.string,
   title: PropTypes.string,
   inputClassName: PropTypes.string,

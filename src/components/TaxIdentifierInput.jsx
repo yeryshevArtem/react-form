@@ -1,6 +1,6 @@
-/* eslint-disable no-undef */
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
+import { IMask } from "react-imask";
 import InputMask from "../common/components/InputMask";
 import locize from "../localization/main";
 import useStyles from "./taxIdentifierInput.styles";
@@ -49,7 +49,12 @@ function renderCountryList(countries, handler) {
   ));
 }
 
-function TaxIdentifierInput({ idAttr, taxIdValue, handleChangeTaxId }) {
+function TaxIdentifierInput({
+  idAttr,
+  taxIdValue,
+  handleChangeTaxId,
+  required,
+}) {
   const classes = useStyles();
   const [selectedCountry, setSelected] = useState("usa");
 
@@ -83,6 +88,7 @@ function TaxIdentifierInput({ idAttr, taxIdValue, handleChangeTaxId }) {
         value={taxIdValue}
         onChange={handleChangeTaxId}
         idAttr={idAttr}
+        required={required}
       />
     </div>
   );
@@ -90,12 +96,14 @@ function TaxIdentifierInput({ idAttr, taxIdValue, handleChangeTaxId }) {
 
 TaxIdentifierInput.defaultProps = {
   idAttr: "",
+  required: false,
 };
 
 TaxIdentifierInput.propTypes = {
   idAttr: PropTypes.string,
   taxIdValue: PropTypes.string.isRequired,
   handleChangeTaxId: PropTypes.func.isRequired,
+  required: PropTypes.bool,
 };
 
 export default TaxIdentifierInput;

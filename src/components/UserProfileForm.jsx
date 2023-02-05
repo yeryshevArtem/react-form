@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-shadow */
 /* eslint-disable no-debugger */
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Input from "../common/components/Input";
 import { Autocomplete } from "../common/components/Autocomplete";
 import locize from "../localization/main";
@@ -11,14 +13,18 @@ import { API_DOMAIN } from "../common/api.config";
 import useAutocomplete from "../common/hooks/useAutocomplete";
 import TaxIdentifierInput from "./TaxIdentifierInput";
 import http from "../common/http";
+import useValidation from "../hooks/useValidation";
 import useStyles from "./userProfileForm.styles";
 
 function UserProfileForm() {
   const classes = useStyles();
+  const formEl = useRef();
 
   // Form state
   const { autoCompleteInput: country, setAutoCompleteInput: setCountry } =
     useAutocomplete();
+  const { wasValidatedClass, validate, removeValidErr } = useValidation(formEl);
+
   const [userName, setUserName] = useState("");
   const [taxId, setTaxId] = useState("");
 
@@ -55,27 +61,39 @@ function UserProfileForm() {
   // submit form
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const data = await http(`${API_DOMAIN}/api/users`, {
-        method: "POST",
-        body: {
-          userName,
-          country,
-          taxId,
-        },
-      });
-      setUserProfileData(data);
-      clearForm();
-    } catch (err) {
-      setError(err);
+
+    const valid = validate();
+    if (valid) {
+      try {
+        const data = await http(`${API_DOMAIN}/api/users`, {
+          method: "POST",
+          body: {
+            userName,
+            country,
+            taxId,
+          },
+        });
+        setUserProfileData(data);
+        clearForm();
+        removeValidErr();
+      } catch (err) {
+        setError(err);
+      }
     }
   };
-
+  // In perspective we can create FormProvider as common component
   return (
-    <form className={classes.container} onSubmit={handleSubmit}>
+    <form
+      ref={formEl}
+      className={`${classes.container} needs-validation ${wasValidatedClass}`}
+      onSubmit={handleSubmit}
+      noValidate
+    >
       <LayoutContainer>
         <Layout size={12}>
           <Input
+            required
+            minlength={3}
             title={locize.get("userName")}
             value={userName}
             onChange={handleChangeUsername}
@@ -91,6 +109,8 @@ function UserProfileForm() {
             autoCompleteInput={country}
             setAutoCompleteInput={handleChangeCountry}
             idAttr="country"
+            required
+            pattern={suggestions.join("|")}
           />
         </Layout>
         <Layout size={12}>
@@ -98,6 +118,7 @@ function UserProfileForm() {
             taxIdValue={taxId}
             handleChangeTaxId={handleChangeTaxId}
             idAttr="taxId"
+            required
           />
         </Layout>
         {userProfileData && (
