@@ -6,6 +6,8 @@ const locize = {
   submit: "Sumbit",
   createUserProfileErr: "Sorry, but can't create user profile. Try again...",
   createUserProfileSuccess: "Your profile was created with success.",
+  usa: "The USA",
+  canada: "Canada",
 };
 
 locize.get = function (key) {

@@ -18,5 +18,6 @@ module.exports = {
     "react/jsx-no-useless-fragment": "off",
     "jsx-a11y/control-has-associated-label": "off",
     "react/button-has-type": "off",
+    "jsx-a11y/anchor-is-valid": "off",
   },
 };
