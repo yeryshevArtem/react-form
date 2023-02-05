@@ -7,7 +7,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
-    "imask": "^6.4.3",
     "jquery": "^3.6.3",
     "jss": "^10.9.2",
     "popper.js": "^1.16.1",

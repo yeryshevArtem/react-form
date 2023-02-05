@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import InputMask from "../common/components/InputMask";
@@ -7,13 +8,29 @@ import useStyles from "./taxIdentifierInput.styles";
 const countriesConfig = {
   usa: {
     key: "usa",
-    pattern: "0000-aaaa-0000000",
+    pattern: "0000-aaaa-00000[00]",
     placeholder: "[0000]-[AAA]-[00000(00)]",
   },
   canada: {
     key: "canada",
-    pattern: "0000-00-00",
-    placeholder: "[0000000000 or 'A','B','D']-[AA]",
+    pattern: [
+      {
+        mask: "0000000000-aa",
+      },
+      {
+        mask: "S-N",
+        blocks: {
+          S: {
+            mask: IMask.MaskedEnum,
+            enum: ["A", "B", "D"],
+          },
+          N: {
+            mask: "aa",
+          },
+        },
+      },
+    ],
+    placeholder: "[0000000000 or 'A' or 'B' or 'D']-[AA]",
   },
 };
 
