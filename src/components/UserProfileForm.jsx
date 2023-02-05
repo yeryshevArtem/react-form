@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-shadow */
-/* eslint-disable no-debugger */
 import React, { useState, useRef } from "react";
 import Input from "../common/components/Input";
 import { Autocomplete } from "../common/components/Autocomplete";
