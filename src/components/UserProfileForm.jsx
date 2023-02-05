@@ -20,21 +20,32 @@ function UserProfileForm() {
   const { autoCompleteInput: country, setAutoCompleteInput: setCountry } =
     useAutocomplete();
   const [userName, setUserName] = useState("");
+  const [taxId, setTaxId] = useState("");
 
   // API state
   const [error, setError] = useState(null);
   const [userProfileData, setUserProfileData] = useState(null);
 
-  const handleChange = (event) => {
+  // Form handlers
+  const handleChangeUsername = (event) => {
     event.preventDefault();
     const { value } = event.currentTarget;
     setUserName(value);
+  };
+
+  const handleChangeTaxId = (val) => {
+    setTaxId(val);
+  };
+
+  const handleChangeCountry = (value) => {
+    setCountry(value);
   };
 
   // clear form state
   const clearForm = () => {
     setUserName("");
     setCountry("");
+    setTaxId("");
   };
 
   // clear API state
@@ -50,6 +61,7 @@ function UserProfileForm() {
         body: {
           userName,
           country,
+          taxId,
         },
       });
       setUserProfileData(data);
@@ -66,7 +78,7 @@ function UserProfileForm() {
           <Input
             title={locize.get("userName")}
             value={userName}
-            onChange={handleChange}
+            onChange={handleChangeUsername}
             placeholder={locize.get("userName")}
             idAttr="userName"
           />
@@ -77,12 +89,16 @@ function UserProfileForm() {
             title={locize.get("country")}
             placeholder={locize.get("country")}
             autoCompleteInput={country}
-            setAutoCompleteInput={setCountry}
+            setAutoCompleteInput={handleChangeCountry}
             idAttr="country"
           />
         </Layout>
         <Layout size={12}>
-          <TaxIdentifierInput idAttr="taxId" />
+          <TaxIdentifierInput
+            taxIdValue={taxId}
+            handleChangeTaxId={handleChangeTaxId}
+            idAttr="taxId"
+          />
         </Layout>
         {userProfileData && (
           <div className={classes.gutterMedium}>

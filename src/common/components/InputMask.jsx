@@ -53,7 +53,15 @@ InputMask.propTypes = {
   showLabel: PropTypes.bool,
   config: PropTypes.shape({
     key: PropTypes.string,
-    pattern: PropTypes.string,
+    pattern: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.arrayOf(
+        PropTypes.shape({
+          mask: PropTypes.string,
+          blocks: PropTypes.shape({}),
+        })
+      ),
+    ]),
     placeholder: PropTypes.string,
   }).isRequired,
 };

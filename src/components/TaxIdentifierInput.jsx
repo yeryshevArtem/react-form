@@ -49,21 +49,15 @@ function renderCountryList(countries, handler) {
   ));
 }
 
-function TaxIdentifierInput({ idAttr }) {
+function TaxIdentifierInput({ idAttr, taxIdValue, handleChangeTaxId }) {
   const classes = useStyles();
   const [selectedCountry, setSelected] = useState("usa");
-
-  const [tax, setTax] = useState("");
-
-  const handleChange = (val) => {
-    setTax(val);
-  };
 
   const handleSelect = useCallback((event) => {
     event.preventDefault();
     const { countryVal } = event.target.dataset;
     setSelected(countryVal);
-    setTax("");
+    handleChangeTaxId("");
   });
 
   return (
@@ -86,8 +80,8 @@ function TaxIdentifierInput({ idAttr }) {
         title={locize.get("taxIdentifier")}
         inputClassName="form-control"
         config={countriesConfig[selectedCountry]}
-        value={tax}
-        onChange={handleChange}
+        value={taxIdValue}
+        onChange={handleChangeTaxId}
         idAttr={idAttr}
       />
     </div>
@@ -100,6 +94,8 @@ TaxIdentifierInput.defaultProps = {
 
 TaxIdentifierInput.propTypes = {
   idAttr: PropTypes.string,
+  taxIdValue: PropTypes.string.isRequired,
+  handleChangeTaxId: PropTypes.func.isRequired,
 };
 
 export default TaxIdentifierInput;
