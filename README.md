@@ -1,4 +1,7 @@
-# Form page that is developed using React and Bootstrap
+# React Form
+
+## Description
+Form page that is developed using React and Bootstrap
 
 ## How to install
 
